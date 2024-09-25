@@ -1,7 +1,6 @@
-import express, { Request } from 'express';
+import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { StableBTreeMap } from 'azle';
-import * as crypto from 'crypto';
 
 const app = express();
 app.use(express.json());
@@ -126,7 +125,7 @@ app.post('/patients', (req, res) => {
             patientId : id,
             name,
             age,
-            medicalHistory,
+            medicalHistory : medicalHistory ?? [],
             currentTreatment,
             assignedDoctor,
             reports: []
@@ -135,7 +134,7 @@ app.post('/patients', (req, res) => {
         // Store patient data securely
         patients.insert(newPatient.patientId, newPatient);
         logAction(assignedDoctor, `Added patient record: ${newPatient.patientId}`);
-        res.status(201).json({ message: "Patient added successfully" });
+        res.status(201).json({ newPatient });
     } catch (error) {
         res.status(500).json({ error: (error as Error).message });
     }
@@ -185,7 +184,7 @@ app.put('/patients/:patientId', (req, res) => {
 
             patients.insert(patientId, patient);
             logAction(assignedDoctor, `Updated patient record: ${patientId}`);
-            res.json({ message: "Patient updated successfully" });
+            res.json(patient);
         } else {
             res.status(404).json({ error: "Patient not found" });
         }
@@ -205,7 +204,7 @@ app.put('/patients/:patientId/reports', (req, res) => {
             patient.reports.push(report);
             patients.insert(patientId, patient);
             logAction(patient.assignedDoctor, `Added report for patient: ${patientId}`);
-            res.json({ message: "Report added successfully" });
+            res.json(patient.reports);
         } else {
             res.status(404).json({ error: "Patient not found" });
         }
@@ -236,8 +235,8 @@ app.delete('/patients/:patientId/reports/:reportId', (req, res) => {
 
         let patient = patients.get(patientId);
         if (patient) {
-            let reportIndex = patient.reports.findIndex(report => report === reportId);
-            if (reportIndex !== -1) {
+            let reportIndex = Number.parseInt(reportId);
+            if (reportIndex >= 0 && reportIndex < patient.reports.length) {
                 patient.reports.splice(reportIndex, 1);
                 patients.insert(patientId, patient);
                 logAction(patient.assignedDoctor, `Deleted report for patient: ${patientId}`);

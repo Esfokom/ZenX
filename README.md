@@ -1,18 +1,32 @@
-# Azle Hello World
+# Patient Records Management API (ICP + TypeScript + Azle)
 
--   [Installation](#installation)
--   [Deployment](#deployment)
+## Introduction
+ZenX is a backend API for managing patient records, built on the Internet Computer Protocol (ICP) using TypeScript and Azle. It allows doctors and hospital administrators to securely store, update, and retrieve medical information about patients. The project aims to streamline the management of patient records by providing endpoints for various functionalities such as creating patient records, assigning doctors, generating reports, and auditing actions.
 
-Azle helps you to build secure decentralized/replicated servers in TypeScript or JavaScript on [ICP](https://internetcomputer.org/). The current replication factor is [13-40 times](https://dashboard.internetcomputer.org/subnets).
+## Problem Statement
+Managing patient records securely is critical in the healthcare industry. This API seeks to solve common issues in patient record management by ensuring:
+- Secure data storage
+- Comprehensive audit logs for actions
+- Easy retrieval of medical records and patient reports
 
-Please remember that Azle is in beta and thus it may have unknown security vulnerabilities due to the following:
+This API provides RESTful endpoints for hospitals to manage patient and doctor records efficiently while ensuring proper documentation and tracking of actions for auditing purposes.
 
--   Azle is built with various software packages that have not yet reached maturity
--   Azle does not yet have multiple independent security reviews/audits
--   Azle does not yet have many live, successful, continuously operating applications deployed to ICP
+## Features
+- Create and manage doctor profiles
+- Add, update, and delete patient records
+- Generate medical reports and assign doctors to patients
+- Log and audit all system actions for security purposes
 
-## Installation
+## Requirements
+- **Node.js** (v16+ recommended)
+- **Azle**: A TypeScript framework for developing canisters on ICP
+- **Express.js**: Web framework for handling API requests
+- **UUID**: For generating unique identifiers for patients and doctors
+- **PostMan**: For testing api endpoints
 
+## Installation Guide
+
+### Step 1: Install Azle
 > Windows is only supported through a Linux virtual environment of some kind, such as [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 You will need [Node.js 20](#nodejs-20) and [dfx](#dfx) to develop ICP applications with Azle:
@@ -51,50 +65,77 @@ Check that the installation went smoothly by looking for clean output from the f
 dfx --version
 ```
 
-## Deployment
-
-To create and deploy a simple sample application called `hello_world`:
+## Step 2: Clone the Repository
+Next, clone this repository to your local machine:
 
 ```bash
-# create a new default project called hello_world
-npx azle new hello_world --http-server --experimental
-cd hello_world
+git clone <https://github.com/Esfokom/ZenX>
 ```
 
+## Step 3: Install Dependencies
+Navigate to the project directory and install the required dependencies:
+
 ```bash
-# install all npm dependencies including azle
+cd <ZenX>
 npm install
 ```
+This will install all the necessary packages from package.json.
+
+## Step 4: Start the development server
+Run the following commands in separate terminals
 
 ```bash
-# start up a local ICP replica
-dfx start --clean
+dfx start
 ```
-
-In a separate terminal in the `hello_world` directory:
-
+In another terminal, run
 ```bash
-# deploy your canister
 dfx deploy
 ```
+This will install all the necessary packages from package.json.
 
-If you would like your canister to autoreload on file changes:
+The url for the backend api http://be2us-64aaa-aaaaa-qaabq-cai.localhost:[YOUR_PORT]/
 
-```bash
-AZLE_AUTORELOAD=true dfx deploy
-```
+You can test with PostMan
 
-View your frontend in a web browser at `http://[canisterId].localhost:8000`.
 
-To obtain your application's [canisterId]:
+## API Endpoints Documentation
 
-```bash
-dfx canister id backend
-```
+## API Endpoints Overview
 
-Communicate with your canister using any HTTP client library, for example using `curl`:
+1. **Create a New Doctor**  
+   Allows the creation of a new doctor record in the system.
 
-```bash
-curl http://[canisterId].localhost:8000/db
-curl -X POST -H "Content-Type: application/json" -d "{ \"hello\": \"world\" }" http://[canisterId].localhost:8000/db/update
-```
+2. **Get Doctor Details**  
+   Retrieves the details of a specific doctor using their ID.
+
+3. **Create a New Patient**  
+   Creates a new patient record, including their medical history and assigned doctor.
+
+4. **Get Patient Details**  
+   Retrieves the details of a specific patient using their ID.
+
+5. **Update Patient Details**  
+   Updates the existing details of a patient, including their medical history and treatment.
+
+6. **Add a Medical Report for a Patient**  
+   Adds a new medical report to the patient's record.
+
+7. **Get All Reports for a Patient**  
+   Retrieves all medical reports associated with a specific patient.
+
+8. **Delete a Medical Report**  
+   Deletes a specific medical report from the patient's record.
+
+9. **Assign Doctor to Patient**  
+   Assigns or reassigns a doctor to a patient.
+
+10. **Generate Reports (For Hospital Management)**  
+    Generates a comprehensive report of all patients, their treatments, and assigned doctors.
+
+
+  
+
+
+  
+
+
