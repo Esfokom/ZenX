@@ -7,6 +7,10 @@
         "allowJs": true,
         "outDir": "HACK_BECAUSE_OF_ALLOW_JS",
         "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "baseUrl": "./", 
+        "paths": {
+            "*": ["node_modules/*"]
+        }
     }
 }
